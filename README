@@ -1,0 +1,119 @@
+# Simple RESTful API with Node.js, Express, and PostgreSQL
+
+This project is a simple RESTful API built with Node.js, Express, Sequelize (for PostgreSQL database interaction), and JWT (JSON Web Tokens) for authentication. It allows users to manage a collection of products, including CRUD operations.
+
+## Installation
+
+1. Clone this repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   npm run start
+
+## Environment
+(Environment variable can be change in .env)
+DATABASE_URL
+JWT_SECRET
+PORT
+
+## Register User
+
+curl --location 'http://localhost:3000/api/users/register' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "testuser",
+    "password": "testpassword"
+  }'
+
+Response
+{
+    "id": 1,
+    "username": "testuser",
+    "updatedAt": "2024-05-31T16:58:30.203Z",
+    "createdAt": "2024-05-31T16:58:30.203Z"
+}
+
+## Login User
+
+curl --location 'http://localhost:3000/api/users/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "testuser",
+    "password": "testpassword"
+  }'
+
+Response
+{
+    "token": <jwt>
+}
+
+## Create Product
+
+curl --location 'http://localhost:3000/api/products' \
+--header 'Authorization: Bearer <jwt>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Product 1",
+    "description": "Description of Product 1",
+    "price": 19.99
+  }'
+
+Response
+{
+    "id": 1,
+    "name": "Product 1",
+    "description": "Description of Product 1",
+    "price": 19.99,
+    "updatedAt": "2024-05-31T17:03:13.534Z",
+    "createdAt": "2024-05-31T17:03:13.534Z"
+}
+
+## Get Product
+
+curl --location 'http://localhost:3000/api/products' \
+--header 'Authorization: Bearer <jwt>'
+
+Response
+[
+    {
+        "id": 1,
+        "name": "Updated Product",
+        "description": "Updated Description",
+        "price": 29.99,
+        "createdAt": "2024-05-31T17:03:13.534Z",
+        "updatedAt": "2024-05-31T17:05:08.941Z"
+    }
+]
+
+## Update Product
+
+curl --location --request PUT 'http://localhost:3000/api/products/1' \
+--header 'Authorization: Bearer <jwt>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Updated Product",
+    "description": "Updated Description",
+    "price": 29.99
+  }'
+
+Response
+{
+    "message": "Product updated successfully"
+}
+
+## Delete Product
+
+curl --location --request DELETE 'http://localhost:3000/api/products/:id' \
+--header 'Authorization: Bearer <jwt>'
+
+Response
+{
+    "message": "Product deleted successfully"
+}
+
+## Error Codes
+
+400: Invalid Creds
+401: Unauthorized
+201: Success
+500: Generic Code Error
